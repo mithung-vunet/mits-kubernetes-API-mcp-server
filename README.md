@@ -45,11 +45,13 @@ A **Java 17** implementation of the [Model Context Protocol (MCP)](https://model
 
 ```
 mits-kubernetes-API-mcp-server/
-├── dynamic-api/                              ← MCP server source
+├── dynamic-api/
 │   ├── src/main/java/com/kubernetes/mcp/
 │   │   └── DynamicMcpServer.java            ← All 17 tools, ~950 lines
+│   ├── target/
+│   │   └── kubernetes-dynamic-mcp-server-1.0.0.jar  ← Pre-built fat JAR (~40 MB)
 │   ├── pom.xml
-│   ├── mvnw.cmd / mvnw                      ← Maven wrapper (no Maven install needed)
+│   ├── mvnw.cmd / mvnw                      ← Maven wrapper (build from source if needed)
 │   ├── build.bat                            ← Windows one-click build
 │   └── build.sh                             ← Linux/macOS one-click build
 ├── docs/
@@ -66,29 +68,38 @@ mits-kubernetes-API-mcp-server/
 
 | Requirement | Version | Notes |
 |---|---|---|
-| Java JDK | 17+ | [Microsoft Build of OpenJDK](https://learn.microsoft.com/en-us/java/openjdk/download) recommended |
-| Maven | 3.8+ | **OR** use the included `mvnw.cmd` wrapper — no Maven install needed |
+| Java JRE | 17+ | [Microsoft Build of OpenJDK](https://learn.microsoft.com/en-us/java/openjdk/download) — only the **JRE** (runtime) is needed to run the pre-built JAR |
 | Kubernetes cluster | 1.24+ | Local or remote — see [single-node setup guide](docs/single-node-kubernetes-ubuntu.md) |
+| Maven *(optional)* | 3.8+ | Only needed if you want to **build from source** — `mvnw.cmd` wrapper is included |
 
 ---
 
 ## Quick Start
 
-### Step 1 — Build the JAR
+### Step 1 — Get the JAR
 
-**Windows (no Maven required):**
-```bat
-cd dynamic-api
-mvnw.cmd clean package -DskipTests
+**Option A — Download the pre-built JAR (recommended):**
+
+The fat JAR is included in this repo at:
 ```
-
-**Linux / macOS:**
+dynamic-api/target/kubernetes-dynamic-mcp-server-1.0.0.jar
+```
+Clone the repo or download the JAR directly:
 ```bash
-cd dynamic-api
-chmod +x build.sh && ./build.sh
+git clone https://github.com/mithung-vunet/mits-kubernetes-API-mcp-server.git
 ```
+The JAR is ~40 MB and contains all dependencies — **no Maven, no build step required**.
 
-Output: `dynamic-api/target/kubernetes-dynamic-mcp-server-1.0.0.jar` (~40 MB fat JAR, all dependencies included)
+**Option B — Build from source:**
+
+```bat
+# Windows
+cd dynamic-api && mvnw.cmd clean package -DskipTests
+```
+```bash
+# Linux / macOS
+cd dynamic-api && chmod +x build.sh && ./build.sh
+```
 
 ---
 

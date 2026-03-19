@@ -1,6 +1,6 @@
-# Maven build output
-target/
-dynamic-api/target/
+# Maven build output — keep the fat JAR, exclude everything else
+dynamic-api/target/*
+!dynamic-api/target/kubernetes-dynamic-mcp-server-1.0.0.jar
 
 # Maven wrapper cache
 .mvn/wrapper/maven-wrapper.jar
