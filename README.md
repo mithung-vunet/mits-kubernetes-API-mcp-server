@@ -20,30 +20,16 @@ A **Java 17** implementation of the [Model Context Protocol (MCP)](https://model
 
 ---
 
-## Why This Approach
-
-| | **This project** | [containers/kubernetes-mcp-server](https://github.com/containers/kubernetes-mcp-server) | [rohitg00/kubectl-mcp-server](https://github.com/rohitg00/kubectl-mcp-server) |
-|---|---|---|---|
-| Language | Java 17 | Go | Python |
-| Auth | Kubeconfig / service account token | Kubeconfig | kubectl subprocess |
-| API approach | **Direct Kubernetes REST API** | Dynamic API discovery | kubectl subprocess |
-| Deployment | **Fat JAR — zero install on MCP host** | Native binary | Python venv |
-| CRD support | **Automatic** (queries API server) | Automatic | Via kubectl |
-| kubectl required | **No** | No | Yes |
-| Air-gap friendly | **Yes** | Yes | Requires kubectl |
-
----
-
 ## Architecture
 
 ```
 ┌─────────────────────────────────────┐        ┌──────────────────────────────┐
 │  VS Code / Claude Desktop           │        │  Kubernetes Cluster          │
 │                                     │        │                              │
-│  ┌──────────────┐   MCP (stdio)     │        │  ┌──────────────────────┐   │
-│  │ GitHub       │ ──────────────►  │        │  │  kube-apiserver      │   │
-│  │ Copilot      │                   │  HTTPS │  │  :6443               │   │
-│  └──────────────┘  DynamicMcpServer ├───────►│  └──────────────────────┘   │
+│  ┌──────────────┐   MCP (stdio)     │        │  ┌──────────────────────┐    │
+│  │ GitHub       │ ──────────────►   │        │  │  kube-apiserver      │    │
+│  │ Copilot      │                   │  HTTPS │  │  :6443               │    │
+│  └──────────────┘  DynamicMcpServer ├───────►│  └──────────────────────┘    │
 │                    (Java fat JAR)   │        │                              │
 │                    reads kubeconfig │        │  Bearer token auth (SA)      │
 └─────────────────────────────────────┘        └──────────────────────────────┘
