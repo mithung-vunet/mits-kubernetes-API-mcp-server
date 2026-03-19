@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "kubernetes-dynamic": {
+      "type": "stdio",
+      "command": "java",
+      "args": [
+        "-jar",
+        "C:\\Projects\\kubernetes-mcp-java\\dynamic-api\\target\\kubernetes-dynamic-mcp-server-1.0.0.jar"
+      ]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+# Maven build output
+target/
+dynamic-api/target/
+
+# Maven wrapper cache
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# VS Code (keep mcp.json and settings.json, ignore user-specific)
+.vscode/*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local kubeconfig (never commit credentials)
+*.kubeconfig
+kubeconfig
+kubeconfig.yaml
+kubeconfig.yml
+
+# Generated HTML reports (local only)
+*.html
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Temp files
+*.tmp
+*.bak
+*.swp
