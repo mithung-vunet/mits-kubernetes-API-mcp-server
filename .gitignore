@@ -27,6 +27,7 @@ desktop.ini
 kubeconfig
 kubeconfig.yaml
 kubeconfig.yml
+docs/sample-multi-cluster.yaml
 
 # Generated HTML reports (local only)
 *.html

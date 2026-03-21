@@ -227,6 +227,70 @@ Restart VS Code — the server `kubernetes-dynamic` will appear in GitHub Copilo
 
 ---
 
+## Multi-Cluster Configuration
+
+Run one JAR instance per cluster. Use the `KUBECONFIG` environment variable in your MCP client config to point each server at a different cluster.
+
+### VS Code (`mcp.json`)
+
+```json
+{
+  "servers": {
+    "k8s-production": {
+      "type": "stdio",
+      "command": "java",
+      "args": ["-jar", "C:\\path\\to\\kubernetes-dynamic-mcp-server-1.0.0.jar"],
+      "env": { "KUBECONFIG": "C:\\Users\\you\\.kube\\production.yaml" }
+    },
+    "k8s-staging": {
+      "type": "stdio",
+      "command": "java",
+      "args": ["-jar", "C:\\path\\to\\kubernetes-dynamic-mcp-server-1.0.0.jar"],
+      "env": { "KUBECONFIG": "C:\\Users\\you\\.kube\\staging.yaml" }
+    },
+    "k8s-dev": {
+      "type": "stdio",
+      "command": "java",
+      "args": ["-jar", "C:\\path\\to\\kubernetes-dynamic-mcp-server-1.0.0.jar"],
+      "env": { "KUBECONFIG": "C:\\Users\\you\\.kube\\dev.yaml" }
+    }
+  }
+}
+```
+
+Omitting `env` / `KUBECONFIG` falls back to `~/.kube/config`.
+
+### Per-cluster kubeconfig template
+
+Create one YAML file per cluster (e.g., `production.yaml`):
+
+```yaml
+apiVersion: v1
+kind: Config
+clusters:
+  - name: my-cluster
+    cluster:
+      server: https://<CLUSTER_IP>:6443
+      insecure-skip-tls-verify: true
+users:
+  - name: mcp-admin
+    user:
+      token: <PASTE_BEARER_TOKEN_HERE>
+contexts:
+  - name: my-cluster
+    context:
+      cluster: my-cluster
+      user: mcp-admin
+      namespace: default
+current-context: my-cluster
+```
+
+A starter template is available in `docs/sample-multi-cluster.yaml` (gitignored once real credentials are added).
+
+Each server process is locked to its cluster at startup — change `KUBECONFIG` and restart to switch targets.
+
+---
+
 ## Available Tools (17 total)
 
 ### Generic API Tools — work with ANY Kubernetes resource including CRDs
